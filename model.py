@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import random
 from PIL import Image
 
-zeros = 0
+
 lines1 = []
 
 with open('recordings/driving_log.csv') as csvfile:
@@ -13,22 +13,28 @@ with open('recordings/driving_log.csv') as csvfile:
     for line in reader:
         lines1.append(line)
      
-
+# shuffle input data
 random.shuffle(lines1)
 
 images1 = []
 measurements1 = []
 for line in lines1:
 
+    # read center, left and right image
     img_center = np.asarray(Image.open(line[0].split('/')[-3]+'/'+line[0].split('/')[-2]+'/'+line[0].split('/')[-1]))
     img_left = np.asarray(Image.open(line[1].split('/')[-3]+'/'+line[1].split('/')[-2]+'/'+line[1].split('/')[-1]))
     img_right = np.asarray(Image.open(line[2].split('/')[-3]+'/'+line[2].split('/')[-2]+'/'+line[2].split('/')[-1]))
+
+    # flip center image
     image_flipped = np.fliplr(img_center)
     
+    # read recorded steering
     steering_center = float(line[3])
 
     steering_flipped = -steering_center 
-    correction = 0.22 # this is a parameter to tune
+
+    # correct steering for the left and right camera images
+    correction = 0.22 
     steering_left = steering_center + correction
     steering_right = steering_center - correction
     
@@ -40,6 +46,7 @@ for line in lines1:
     images1.append(img_right);
     measurements1.append(steering_right);    
     
+    # only add flipped image, if significantly steered -> to avoid zero-steering biasing
     if (steering_center >= 0.08 or steering_center <= -0.08):
         images1.append(image_flipped);
         measurements1.append(steering_flipped);
@@ -47,6 +54,8 @@ for line in lines1:
 X_train = np.array(images1)
 Y_train = np.array(measurements1)
 
+
+# MODEL
 from keras.layers.core import Lambda, Dropout
 from keras.models import Sequential
 from keras.layers.convolutional import Convolution2D
