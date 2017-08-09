@@ -141,6 +141,7 @@ Here is an example image of center lane driving:
 
 <img src="./writeup_media/center.png" width="320" />
 
+
 I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to steer back to the center of the road on its own.
 These images show what a recovery looks like starting from the right border of the road :
 
@@ -148,12 +149,21 @@ These images show what a recovery looks like starting from the right border of t
 <img src="./writeup_media/recovery2.png" width="320" />
 <img src="./writeup_media/recovery3.png" width="320" />
 
-To augment the data sat, I also flipped images and angles thinking that this would add more training data and robustness to the model. 
+To augment the data sat, I also flipped images and angles thinking that this would add more training data and robustness to the model. But in order to not bias the model with zero-angle steering, I only added the flipped image for steering angles greater than 0.08 (see model.py line 50).
 
 For example, here is an image that has then been flipped:
 
 <img src="./writeup_media/flip1.png" width="320" />
 <img src="./writeup_media/flip2.png" width="320" />
+
+Additionally I also used the side-camera images with modified steering angle to augment the training data. 
+
+The following plot shows the distribution of all steering angles within the training dataset. 
+It can be seen that the model is not overly biased to a certain steering range. 
+This is important to achieve a high performance of the network. 
+
+<img src="./writeup_media/steering_histo.png" width="320" />
+
 
 After the collection process, I had 15992 sample images. 
 And I used 13593 samples to train, and 2399 samples to validate the model.
@@ -175,3 +185,7 @@ Epoch 2/2
 13593/13593 [==============================] - 29s - loss: 0.0169 - val_loss: 0.0167
 dict_keys(['loss', 'val_loss'])
 ```
+
+This graph shows the training and validation loss graphically for training the two epochs:
+
+<img src="./writeup_media/loss.png" width="320" />
