@@ -42,25 +42,25 @@ The file shows the pipeline I used for training and validating the model, and it
 
 #### 1. An appropriate model architecture has been employed
 
-My model is based on the NVIDIA architecture and consits of five convolution layers with 5x5 and 3x3 filter sizes and depths between 24 and 64 (model.py lines 71-75) 
+My model is based on the NVIDIA architecture and consits of five convolution layers with 5x5 and 3x3 filter sizes and depths between 24 and 64 (model.py lines 89-93) 
 
 The model includes ELU layers to introduce nonlinearity.
 
-The data is normalized in the model using a Keras lambda layer (code line 69). 
+The data is normalized in the model using a Keras lambda layer (code line 87). 
 
-fter the convolution layers, the network is flattened and followed by five fully connected layers with sizes 500, 100, 50, 10 and 1 (code line 76-82). 
+fter the convolution layers, the network is flattened and followed by five fully connected layers with sizes 500, 100, 50, 10 and 1 (code line 95-100). 
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model contains one dropout layers in order to reduce overfitting (model.py lines 76). 
+The model contains one dropout layer in order to reduce overfitting (model.py lines 95). 
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 87). 
+The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 105). 
 
 The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
 #### 3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 86).
+The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 104).
 
 #### 4. Appropriate training data
 
